@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql'
 import { UsersService } from './users.service'
 import { AuthOutput, LoginInput, User } from './entity/user.entity'
 import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args'
@@ -75,5 +82,13 @@ export class UsersResolver {
     const userData = await this.prisma.user.findUnique(args)
     checkRowLevelPermission(user, userData.uid)
     return this.usersService.remove(args)
+  }
+
+  @ResolveField(() => String, { nullable: true })
+  async email(@Parent() parent: User) {
+    const credentials = await this.prisma.credentials.findUnique({
+      where: { uid: parent.uid },
+    })
+    return credentials?.email
   }
 }
