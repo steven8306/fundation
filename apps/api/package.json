@@ -19,14 +19,26 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "entity:gql": "npx nestjs-prisma-codegen@3.2.0 --graphql",
+    "entity:rest": "npx nestjs-prisma-codegen@3.2.0 --rest",
+    "entity:complete": "npx nestjs-prisma-codegen@3.2.0 --complete"
   },
   "dependencies": {
+    "@apollo/server": "^4.10.0",
     "@foundation/sample-lib": "workspace:^",
+    "@nestjs/apollo": "^12.0.11",
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/graphql": "^12.0.11",
+    "@nestjs/jwt": "^10.2.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^7.1.17",
     "@prisma/client": "5.8.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "graphql": "^16.8.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },
