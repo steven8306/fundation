@@ -1,0 +1,16 @@
+mutation registerWithCredentials(
+  $registerWithCredentialsInput: RegisterWithCredentialsInput!
+) {
+  registerWithCredentials(
+    registerWithCredentialsInput: $registerWithCredentialsInput
+  ) {
+    token
+    user {
+      uid
+      updatedAt
+      name
+      image
+      createdAt
+    }
+  }
+}
