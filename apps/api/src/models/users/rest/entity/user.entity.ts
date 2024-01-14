@@ -11,3 +11,13 @@ export class UserEntity implements RestrictProperties<UserEntity, User> {
   @IsOptional()
   name: string
 }
+
+export class AuthOutput {
+  user: UserEntity
+  token: string
+}
+
+export class LoginInput {
+  email: string
+  password: string
+}

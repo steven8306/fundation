@@ -11,7 +11,7 @@ import {
 
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { ApiTags } from '@nestjs/swagger'
-import { CreateUser } from './dtos/create.dto'
+import { RegisterWithCredentialsInput } from './dtos/create.dto'
 import { UserQueryDto } from './dtos/query.dto'
 import { UpdateUser } from './dtos/update.dto'
 import {
@@ -19,23 +19,32 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
 } from '@nestjs/swagger'
-import { UserEntity } from './entity/user.entity'
+import { AuthOutput, LoginInput, UserEntity } from './entity/user.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { GetUserType } from 'src/common/types'
 import { checkRowLevelPermission } from 'src/common/auth/util'
+import { UsersService } from '../graphql/users.service'
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly userService: UsersService,
+  ) {}
 
-  @AllowAuthenticated()
-  @ApiBearerAuth()
-  @ApiCreatedResponse({ type: UserEntity })
+  @ApiCreatedResponse({ type: AuthOutput })
   @Post()
-  create(@Body() createUserDto: CreateUser, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, createUserDto.uid)
-    return this.prisma.user.create({ data: createUserDto })
+  create(@Body() registerWithCredentialsInput: RegisterWithCredentialsInput) {
+    return this.userService.registerWithCredentials(
+      registerWithCredentialsInput,
+    )
+  }
+
+  @ApiCreatedResponse({ type: AuthOutput })
+  @Post('login')
+  login(@Body() loginInput: LoginInput) {
+    return this.userService.login(loginInput)
   }
 
   @ApiOkResponse({ type: [UserEntity] })

@@ -1,7 +1,10 @@
-import { OmitType } from '@nestjs/swagger'
+import { OmitType, PickType } from '@nestjs/swagger'
 import { UserEntity } from '../entity/user.entity'
 
-export class CreateUser extends OmitType(UserEntity, [
-  'createdAt',
-  'updatedAt',
-]) {}
+export class RegisterWithCredentialsInput extends PickType(UserEntity, [
+  'name',
+  'image',
+]) {
+  email: string
+  password: string
+}
