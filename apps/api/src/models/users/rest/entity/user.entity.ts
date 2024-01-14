@@ -7,5 +7,7 @@ export class UserEntity implements RestrictProperties<UserEntity, User> {
   createdAt: Date
   updatedAt: Date
   @IsOptional()
+  image: string
+  @IsOptional()
   name: string
 }
